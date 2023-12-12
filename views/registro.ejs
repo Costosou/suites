@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Registro de usuario</title>
+</head>
+<body>
+    <%- include('navbar') %>
+    <header>
+        <h1>Suites 5* Lucía</h1> 
+    </header>
+    <main class="container mt-4">
+        <div class="formulario-fondo">
+            <h2 class="text-center mb-4">Registro de Usuario</h2>
+        
+        <form action="/registro" method="post">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="apellidos">Apellidos:</label>
+                <input type="text" id="apellidos" name="apellidos" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" class="form-control" required>
+                <% if (locals.emailError) { %>
+                    <div class="error-message text-danger" id="email-error">
+                        <%= locals.emailError %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="form-group">
+                <label for="username">Nombre de Usuario:</label>
+                <input type="text" id="username" name="username" class="form-control" required>
+                <% if (locals.usernameError) { %>
+                    <div class="error-message text-danger" id="username-error">
+                        <%= locals.usernameError %>
+                    </div>
+                <% } %>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña:</label>
+                <input type="password" id="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </form>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function showError(fieldId, message) {
+                $(`#${fieldId}-error`).text(message);
+            }
+    
+            function clearError(fieldId) {
+                $(`#${fieldId}-error`).text('');
+            }
+    
+            $('#email').on('input', function () {
+                clearError('email');
+            });
+    
+            $('#username').on('input', function () {
+                clearError('username');
+            });
+    
+            $('form').submit(function (event) {
+                const email = $('#email').val();
+                const username = $('#username').val();
+    
+                if (email.trim() === '') {
+                    showError('email', 'El email es requerido.');
+                    event.preventDefault();
+                }
+                if (username.trim() === '') {
+                    showError('username', 'El nombre de usuario es requerido.');
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+    
+</body>
+</html>

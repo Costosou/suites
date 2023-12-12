@@ -1,0 +1,70 @@
+
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('/fondo.jpg');
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  color: black;
+}
+
+header {
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  text-align: center;
+  padding: 1em;
+}
+
+main {
+  max-width: 1200px;
+  margin: 2em auto;
+}
+
+.habitacion {
+  display: flex;
+  margin: 1em;
+  padding: 1em;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+}
+
+.habitacion img {
+  width: 100px;
+  height: auto;
+  margin-right: 1em;
+}
+
+.habitacion-info {
+  flex: 1;
+}
+
+.arrow {
+  background-color: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.prev {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+.next {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+}
+
+.formulario-fondo {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 10px;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+      .carousel-inner {
+            text-align: center;
+        }
+        .carousel-inner img {
+            max-width: 600px;
+            height: auto;
+            max-height: 600px; /* Ajusta el valor según sea necesario */
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Comprobar Disponibilidad</title>
+</head>
+<body>
+  <%- include('header') %>
+  <header>
+    <h1>Alquiler de Pisos Vacacionales</h1>
+  </header>
+  <main class="container mt-4">
+    <% if (habitacion) { %>
+        <h2>Realizando reserva de <%= habitacion.nombre %></h2>
+        <div id="carouselHabitacion" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+              <% for (let i = 1; i <= 4; i++) { %>
+                <% const imagenNombre = `suite${habitacion.id}${i}.jpg`; %>
+                  <div class="carousel-item <%= i === 1 ? 'active' : '' %>">
+                      <img src="/<%= imagenNombre %>" class="d-block w-100" alt="<%= habitacion.nombre %>">
+                  </div>
+              <% } %>
+          </div>
+      </div>
+
+      <div class="habitacion-info mt-4">
+        <p>Precio: <%= habitacion.precio %>€/noche</p>
+        <form action="/reservar" method="post">
+            <div class="form-group">
+                <label for="fechaInicio">Fecha de Inicio:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" required>
+            </div>
+            <div class="form-group">
+                <label for="fechaFin">Fecha de Fin:</label>
+                <input type="date" id="fechaFin" name="fechaFin" required>
+            </div>
+            <input type="hidden" name="habitacionId" value="<%= habitacion.id %>">
+            <button type="submit" class="btn btn-primary">Reservar</button>
+        </form>
+    </div>
+    <% } else { %>
+        <p>No se encontraron detalles de la habitación.</p>
+    <% } %>
+</main>
+</body>
+<script>
+  $(document).ready(function () {
+    $('#carouselHabitacion').carousel(); // Iniciar el carrusel
+  });
+</script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</html>

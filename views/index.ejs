@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="/style.css">
+    <title>Suties 5* Lucía</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function () {
+          $('.habitacion-fotos').each(function (index, carousel) {
+            var currentIndex = 0;
+            var fotos = $(carousel).find('img');
+            var totalFotos = fotos.length;
+            var interval;
+    
+            function showCurrentFoto() {
+              fotos.each(function (index, foto) {
+                $(foto).css('display', index === currentIndex ? 'block' : 'none');
+              });
+            }
+    
+            function nextFoto() {
+              currentIndex = (currentIndex + 1) % totalFotos;
+              showCurrentFoto();
+            }
+    
+            function prevFoto() {
+              currentIndex = (currentIndex - 1 + totalFotos) % totalFotos;
+              showCurrentFoto();
+            }
+    
+            function startAutoPlay() {
+              interval = setInterval(nextFoto, 5000); // Avanzar cada 5 segundos
+            }
+    
+            function stopAutoPlay() {
+              clearInterval(interval);
+            }
+    
+            showCurrentFoto();
+            startAutoPlay();
+    
+            $(carousel).on('mouseenter', stopAutoPlay).on('mouseleave', startAutoPlay);
+            $(carousel).prev('.prev').on('click', prevFoto);
+            $(carousel).next('.next').on('click', nextFoto);
+          });
+        });
+      </script>
+</head>
+<body>
+    <%- include('header') %>
+    <header>
+        <h1>Alquiler de habitaciones vacacionales</h1>
+    </header>
+    <main>
+        <h2>Habitaciones Disponibles</h2>
+        <% habitaciones.forEach(habitacion => { %>
+            <div class="habitacion">
+              <div class="habitacion-fotos" id="carousel<%= habitacion.id %>">
+                <% for (let i = 1; i <= 4; i++) { %>
+                  <% const imagenNombre = `imagen${i}`; %>
+                  <img src="<%= habitacion[imagenNombre] %>" alt="<%= habitacion.nombre %>" class="imagen-carousel">
+                <% } %>
+              </div>
+              <div class="habitacion-info">
+                <h3><%= habitacion.nombre %></h3>
+                <p>Precio: <%= habitacion.precio %>€/noche</p>
+                <a href="/reservar_suite/<%= habitacion.id %>" class="btn btn-primary">Realizar reserva</a>
+              </div>
+            </div>
+          <% }); %>
+    </main>
+    <script>
+        function cambiarFoto(direction, carouselIndex) {
+        const $carousel = $(`#carousel${carouselIndex}`);
+        const $imagenes = $carousel.find('.imagen-carousel');
+        let currentIndex = $imagenes.index($imagenes.filter(':visible'));
+
+        if (direction === 'prev') {
+            currentIndex = (currentIndex - 1 + $imagenes.length) % $imagenes.length;
+        } else if (direction === 'next') {
+            currentIndex = (currentIndex + 1) % $imagenes.length;
+        }
+
+        $imagenes.hide();
+        $imagenes.eq(currentIndex).show();
+        }
+    </script>
+</body>
+</html>
